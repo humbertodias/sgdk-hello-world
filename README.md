@@ -1,3 +1,3 @@
 # Mega-Hello-World
 
-A hello world applicatio for SEGA Genesis / Mega Drive.
+A "hello world" application for SEGA Genesis / Mega Drive.
