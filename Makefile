@@ -10,3 +10,6 @@ build:
 
 clean:
 	rm -rf out/*
+
+format:
+	clang-format -i src/main.c

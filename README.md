@@ -9,3 +9,5 @@ or using docker
 ```shell
 make build
 ```
+
+After compilation, a rom.bin file should appear in the out folder of the project
