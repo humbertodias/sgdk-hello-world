@@ -1,15 +1,19 @@
+.PHONY: compile
+compile:
+	docker run -it --rm -v "${PWD}":/src sgdk:${SGDK_VERSION}
+
+SGDK_VERSION=1.90
 download:
-	if ! test -d SGDK; then git clone https://github.com/Stephane-D/SGDK ; fi
+	if ! test -d SGDK; then git clone https://github.com/Stephane-D/SGDK && cd SGDK && git checkout tags/v${SGDK_VERSION} ; fi
 
-docker-sgdk:	download
-	cd SGDK && docker build . -t sgdk
+build-sgdk:	download
+	cd SGDK && docker build . -t sgdk:${SGDK_VERSION}
 
-.PHONY: build
-build:
-	docker run -it --rm -v "${PWD}":/src sgdk
+rm-sgdk:
+	rm -rf SGDK
 
-clean:
+shell:
+	docker run -it --rm -v "${PWD}":/src --entrypoint=/bin/bash sgdk:${SGDK_VERSION} 
+
+clean:	rm-sgdk
 	rm -rf out/*
-
-format:
-	clang-format -i src/main.c
