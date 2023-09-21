@@ -7,7 +7,7 @@ You need [SGDK](https://github.com/Stephane-D/SGDK) to properly compile it.
 or using docker
 
 ```shell
-make build
+make compile
 ```
 
 After compilation, a rom.bin file should appear in the out folder of the project
