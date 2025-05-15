@@ -1,22 +1,17 @@
+SGDK_VERSION=2.11
+UID=$(shell id -u)
+GID=$(shell id -g)
+DOCKER_IMAGE=registry.gitlab.com/doragasu/docker-sgdk:v${SGDK_VERSION}
+
 .PHONY: compile
 compile:
-	docker run -it --rm -v "${PWD}":/src sgdk:${SGDK_VERSION}
-
-compile-native:
-	make -f SGDK/makefile.gen
-
-SGDK_VERSION=1.90
-download:
-	if ! test -d SGDK; then git clone https://github.com/Stephane-D/SGDK && cd SGDK && git checkout tags/v${SGDK_VERSION} ; fi
-
-build-sgdk:	download
-	cd SGDK && docker build . -t sgdk:${SGDK_VERSION}
-
-rm-sgdk:
-	rm -rf SGDK
+	docker run -it --rm --user ${UID}:${GID} -v "${PWD}":/workdir -w /workdir --platform linux/amd64 ${DOCKER_IMAGE}
 
 shell:
-	docker run -it --rm -v "${PWD}":/src --entrypoint=/bin/bash sgdk:${SGDK_VERSION} 
+	docker run -it --rm -v "${PWD}":/workdir -w /workdir --entrypoint=/bin/bash  --platform linux/amd64 ${DOCKER_IMAGE}
 
-clean:	rm-sgdk
-	rm -rf out/*
+clean:
+	rm -rf out/* build/* src/boot/*
+
+format:
+	clang-format -i src/main.c
