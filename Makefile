@@ -15,3 +15,8 @@ clean:
 
 format:
 	clang-format -i src/main.c
+
+RETROARCH=/Applications/RetroArch.app/Contents/MacOS/RetroArch
+RETROARCH_CORE=~/Library/Application\ Support/RetroArch/cores/genesis_plus_gx_libretro.dylib
+run:
+	${RETROARCH} -L ${RETROARCH_CORE} out/rom.bin
